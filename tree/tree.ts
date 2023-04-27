@@ -8,6 +8,9 @@ export type Item = {
 
   // extra data
   parent?: Item;
+
+  type?: "YTvideo";
+  videoId?: string;
 };
 
 export function item(text: string, children: Item[] = []): Item {
@@ -18,6 +21,13 @@ export function item(text: string, children: Item[] = []): Item {
     isOpen: children.length > 0,
   };
   if (children) for (const child of children) child.parent = res;
+  return res;
+}
+
+export function video(text: string, videoId: string) {
+  const res = item(text);
+  res.type = "YTvideo";
+  res.videoId = videoId;
   return res;
 }
 

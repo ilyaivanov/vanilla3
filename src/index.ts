@@ -57,6 +57,14 @@ window.addEventListener("keydown", (e) => {
     startEdit(newI);
   }
 
+  if (e.code === "KeyL" && e.ctrlKey) {
+    e.preventDefault();
+    loadFromFile().then((newRoot) => {
+      console.log(newRoot);
+      init({ root: newRoot, selectedItem: newRoot.children[0] });
+    });
+  }
+
   if (!selected) return;
 
   const isMoving = e.metaKey && e.shiftKey;
@@ -106,13 +114,6 @@ window.addEventListener("keydown", (e) => {
   if (e.code === "KeyE") {
     e.preventDefault();
     startEdit(selected);
-  }
-
-  if (e.code === "KeyL" && e.ctrlKey) {
-    e.preventDefault();
-    loadFromFile().then((newRoot) => {
-      init({ root: newRoot, selectedItem: newRoot.children[0] });
-    });
   }
 });
 

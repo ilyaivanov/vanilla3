@@ -66,6 +66,35 @@ $move-ease: ease-out;
   margin-top: 5px;
 }
 
+.play-icon {
+  // this depends on text font-size (centering now by eye)
+  margin-top: 4px;
+
+  margin-right: 8px;
+
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4.5px 0 4.5px 7.8px;
+  border-color: transparent transparent transparent $secondary-color;
+}
+
+.pause-icon {
+  // this depends on text font-size (centering now by eye)
+  margin-top: 4px;
+
+  margin-right: 8px;
+
+  width: $icon-size;
+  height: $icon-size;
+  display: flex;
+  justify-content: space-between;
+}
+.pause-icon > div {
+  width: 3px;
+  background-color: $secondary-color;
+}
+
 .icon.empty {
   background-color: $background-color;
 }

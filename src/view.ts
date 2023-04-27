@@ -16,11 +16,15 @@ function viewItem(item: Item, level: number): HTMLElement {
       div({
         className: `row row-${level}`,
         children: [
-          div({
-            id: ids.icon(item),
-            className: "icon",
-            classMap: { empty: item.children.length == 0 },
-          }),
+          item.title.startsWith("1")
+            ? div({ className: "pause-icon", children: [div({}), div({})] })
+            : item.type === "YTvideo"
+            ? div({ className: "play-icon" })
+            : div({
+                id: ids.icon(item),
+                className: "icon",
+                classMap: { empty: item.children.length == 0 },
+              }),
           span({
             id: ids.text(item),
             className: "row-text",
