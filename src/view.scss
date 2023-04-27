@@ -1,0 +1,114 @@
+$background-color: #1e2021;
+$color: rgb(236, 236, 236);
+
+$selection-backround: #27292a;
+$selection-color: white;
+
+$secondary-color: rgb(125, 125, 125);
+$faded-color: rgb(58, 58, 58);
+$main-content-width: 750px;
+$font-size: 14px;
+$item-padding: 6px;
+
+$icon-size: 8px;
+$half-icon-size: 4px;
+
+$line-width: 2px;
+$half-line-width: 1px;
+$step: 30px;
+
+body {
+  margin: 0;
+  padding-top: 40px;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background-color: $background-color;
+  color: $color;
+
+  // Typography
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  font-size: $font-size;
+
+  font-weight: 500;
+}
+
+$move-time: 150ms;
+$move-ease: ease-out;
+.row {
+  padding-top: $item-padding;
+  padding-bottom: $item-padding;
+  display: flex;
+  padding-right: max((100% - $main-content-width) / 2, 20px);
+
+  transition: padding-left $move-time $move-ease;
+}
+
+.selected > .row {
+  background-color: $selection-backround;
+  color: $selection-color;
+}
+
+.icon {
+  min-width: $icon-size;
+  height: $icon-size;
+  box-sizing: border-box;
+  background-color: $secondary-color;
+  margin-right: 8px;
+
+  border: 1px solid $secondary-color;
+  transition: background-color 200ms;
+
+  // this depends on text font-size (centering now by eye)
+  margin-top: 5px;
+}
+
+.icon.empty {
+  background-color: $background-color;
+}
+
+.row-text {
+  outline: none;
+}
+
+.children-container {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  overflow: hidden;
+}
+
+.children-line {
+  width: 2px;
+  background-color: $faded-color;
+
+  transition: left $move-time $move-ease;
+
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+}
+
+@for $i from 0 through 5 {
+  .row-#{$i} {
+    padding-left: max(
+      (100% - $main-content-width) / 2 + $step * $i,
+      20px + $step * $i
+    );
+  }
+
+  .children-line-#{$i} {
+    left: max(
+      (100% - $main-content-width) /
+        2 +
+        ($step * $i + $half-icon-size - $half-line-width),
+      20px + $step * $i + $half-icon-size - $half-line-width
+    );
+  }
+}
