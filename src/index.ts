@@ -19,6 +19,7 @@ import {
 import {
   loadFromFile,
   loadFromLocalStorage,
+  saveToFile,
   saveToLocalStorage,
 } from "./persistance";
 import {
@@ -59,12 +60,16 @@ window.addEventListener("keydown", (e) => {
     startEdit(newI);
   }
 
-  if (e.code === "KeyL" && e.ctrlKey) {
+  if (e.code === "KeyL" && e.metaKey) {
     e.preventDefault();
     loadFromFile().then((newRoot) => {
       console.log(newRoot);
       init({ root: newRoot, selectedItem: newRoot.children[0] });
     });
+  }
+  if (e.code === "KeyS" && e.metaKey) {
+    e.preventDefault();
+    if (app) saveToFile(app.root);
   }
 
   const isMoving = e.metaKey && e.shiftKey;
