@@ -12,7 +12,7 @@ const types = [
   { description: "Viztly JSON File", accept: { "json/*": [".json"] } },
 ];
 
-export const saveToFile = async (state: AppState) => {
+export const saveToFile = async (root: Item) => {
   if (window.showSaveFilePicker) {
     const fileHandle = await window.showSaveFilePicker({
       suggestedName: "viztly.json",
@@ -20,7 +20,7 @@ export const saveToFile = async (state: AppState) => {
     });
 
     const myFile = await fileHandle.createWritable();
-    await myFile.write(serialize(state));
+    await myFile.write(serialize(root));
     await myFile.close();
   } else {
     throw new Error("Browser doesn't have showSaveFilePicker");
@@ -39,8 +39,8 @@ export const loadFromFile = async (): Promise<Item> => {
   }
 };
 
-export const saveToLocalStorage = (app: AppState) => {
-  localStorage.setItem(key, serialize(app));
+export const saveToLocalStorage = (root: Item) => {
+  localStorage.setItem(key, serialize(root));
 };
 
 export const loadFromLocalStorage = (): Item | undefined => {
@@ -52,7 +52,7 @@ export const loadFromLocalStorage = (): Item | undefined => {
 };
 
 const parse = (serializedTree: string): Item => {
-  const app: AppState = JSON.parse(serializedTree);
+  const app: { root: Item } = JSON.parse(serializedTree);
 
   const mapItem = (item: Item): Item => {
     const res: Item = item;
@@ -68,7 +68,7 @@ const parse = (serializedTree: string): Item => {
   return app.root;
 };
 
-const serialize = ({ root }: AppState): string => {
+const serialize = (root: Item): string => {
   function replacer(key: keyof Item, value: unknown) {
     if (key == "parent") return undefined;
     else return value;
