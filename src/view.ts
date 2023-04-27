@@ -155,26 +155,24 @@ let elementEdited: HTMLElement | undefined;
 export function startEdit(item: Item) {
   elementEdited = getElementById(ids.text(item)) || undefined;
   if (elementEdited) {
-    if (elementEdited) {
-      elementEdited.contentEditable = "true";
-      elementEdited.focus();
-      var range = document.createRange();
-      range.setStart(elementEdited, 0);
-      range.collapse(true);
+    elementEdited.contentEditable = "true";
+    elementEdited.focus();
+    var range = document.createRange();
+    range.setStart(elementEdited, 0);
+    range.collapse(true);
 
-      var selection = window.getSelection();
-      if (selection) {
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
-
-      elementEdited.addEventListener("input", () => {
-        item!.title = elementEdited!.innerText;
-        if (item!.title.length == 0) elementEdited!.innerHTML = "&nbsp;";
-      });
-      if (item!.title.length == 0) elementEdited!.innerHTML = "&nbsp;";
-      elementEdited.addEventListener("blur", onBlur);
+    var selection = window.getSelection();
+    if (selection) {
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
+
+    elementEdited.addEventListener("input", () => {
+      item!.title = elementEdited!.innerText;
+      if (item!.title.length == 0) elementEdited!.innerHTML = "&nbsp;";
+    });
+    if (item!.title.length == 0) elementEdited!.innerHTML = "&nbsp;";
+    elementEdited.addEventListener("blur", onBlur);
   }
 }
 

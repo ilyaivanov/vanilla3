@@ -12,10 +12,12 @@ import {
 import {
   Item,
   createItemAfter,
+  insertAsLastChild,
   isRoot,
   item,
   removeItemFromParent,
 } from "../tree/tree";
+import { initialRoot } from "./initial";
 import { loadFromFile } from "./persistance";
 import {
   childrenCountChanged,
@@ -31,47 +33,31 @@ import {
   unSelectItem,
 } from "./view";
 
-const root = item("Root", [
-  item("Carbon Based Lifeforms", [
-    item("1998 - The Path"),
-    item("2003 - Hydroponic Garden"),
-    item("2006 - World Of Sleepers"),
-    item("2010 - Interloper", [
-      item("Track 1"),
-      item("Track 2"),
-      item("Track 3"),
-    ]),
-  ]),
-  item("Circular"),
-  item("I Awake"),
-  item("James Murray"),
-  item("Miktek"),
-  item("Koan", [
-    item("Koan - The Way Of One [ Full Album ] 2014"),
-    item("Koan - Argonautica [Full Album]"),
-    item("Koan - Condemned (Full Album) 2016"),
-  ]),
-  item("Zero Cult"),
-  item("Androcell"),
-  item("Scann-Tec"),
-  item("Hol Baumann"),
-  item("Asura"),
-  item("Cell"),
-  item("Biosphere"),
-  item("Aes Dana"),
-  item("Side Liner"),
-  item("Fahrenheit Project"),
-]);
-
 window.addEventListener("keydown", (e) => {
-  if (!selected) return;
-
   if ((isEditingNow() && e.code === "Enter") || e.code == "NumpadEnter") {
     stopEdit();
     return;
   } else if (isEditingNow()) {
     return;
   }
+
+  if (e.code === "Enter") {
+    e.preventDefault();
+    let newI: Item;
+    if (selected) {
+      newI = createItemAfter(selected, "");
+    } else {
+      newI = item("");
+      app!.root.children.push(newI);
+      newI.parent = app!.root;
+    }
+
+    itemAdded(newI);
+    changeSelection(newI);
+    startEdit(newI);
+  }
+
+  if (!selected) return;
 
   const isMoving = e.metaKey && e.shiftKey;
 
@@ -107,14 +93,6 @@ window.addEventListener("keydown", (e) => {
       changeSelection(selected.children[0]);
     }
   }
-  if (e.code === "Enter") {
-    e.preventDefault();
-    const newI = createItemAfter(selected, "");
-
-    itemAdded(newI);
-    changeSelection(newI);
-    startEdit(newI);
-  }
 
   if (e.code === "KeyX") {
     e.preventDefault();
@@ -132,13 +110,11 @@ window.addEventListener("keydown", (e) => {
 
   if (e.code === "KeyL" && e.ctrlKey) {
     e.preventDefault();
-    loadFromFile().then((res) => {
-      console.log(res);
+    loadFromFile().then((newRoot) => {
+      init({ root: newRoot, selectedItem: newRoot.children[0] });
     });
   }
 });
-
-document.body.append(renderApp(root));
 
 let selected: Item | undefined;
 
@@ -149,4 +125,16 @@ function changeSelection(item: Item | undefined) {
     selected = item;
   }
 }
-changeSelection(root.children[0]);
+let app: AppState | undefined;
+function init(_app: AppState) {
+  app = _app;
+  document.body.replaceChildren(renderApp(app.root));
+  changeSelection(app.selectedItem);
+}
+
+type AppState = {
+  root: Item;
+  selectedItem: Item;
+};
+
+init({ root: initialRoot, selectedItem: initialRoot.children[0] });
