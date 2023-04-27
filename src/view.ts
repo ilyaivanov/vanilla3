@@ -24,7 +24,7 @@ function viewItem(item: Item, level: number): HTMLElement {
           span({
             id: ids.text(item),
             className: "row-text",
-            children: item.text,
+            children: item.title,
           }),
         ],
       }),
@@ -59,7 +59,7 @@ const ids = {
 // Actions (make sure these are as simple as possible)
 export function updateText(item: Item) {
   const text = getElementById(ids.text(item));
-  if (text) text.innerText = item.text;
+  if (text) text.innerText = item.title;
 }
 
 export function selectItem(item: Item) {
@@ -169,10 +169,10 @@ export function startEdit(item: Item) {
       }
 
       elementEdited.addEventListener("input", () => {
-        item!.text = elementEdited!.innerText;
-        if (item!.text.length == 0) elementEdited!.innerHTML = "&nbsp;";
+        item!.title = elementEdited!.innerText;
+        if (item!.title.length == 0) elementEdited!.innerHTML = "&nbsp;";
       });
-      if (item!.text.length == 0) elementEdited!.innerHTML = "&nbsp;";
+      if (item!.title.length == 0) elementEdited!.innerHTML = "&nbsp;";
       elementEdited.addEventListener("blur", onBlur);
     }
   }

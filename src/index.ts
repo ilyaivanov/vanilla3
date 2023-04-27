@@ -16,6 +16,7 @@ import {
   item,
   removeItemFromParent,
 } from "../tree/tree";
+import { loadFromFile } from "./persistance";
 import {
   childrenCountChanged,
   closeItem,
@@ -127,6 +128,13 @@ window.addEventListener("keydown", (e) => {
   if (e.code === "KeyE") {
     e.preventDefault();
     startEdit(selected);
+  }
+
+  if (e.code === "KeyL" && e.ctrlKey) {
+    e.preventDefault();
+    loadFromFile().then((res) => {
+      console.log(res);
+    });
   }
 });
 

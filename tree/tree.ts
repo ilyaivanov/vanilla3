@@ -1,7 +1,7 @@
 import { generateRandomId } from "./id";
 
 export type Item = {
-  text: string;
+  title: string;
   id: string;
   children: Item[];
   isOpen: boolean;
@@ -12,7 +12,7 @@ export type Item = {
 
 export function item(text: string, children: Item[] = []): Item {
   const res: Item = {
-    text,
+    title: text,
     id: generateRandomId(),
     children: children,
     isOpen: children.length > 0,
@@ -32,12 +32,12 @@ export function getContext(item: Item) {
 
     if (!context)
       throw new Error(
-        `'${item.text}' references a parent '${item.parent.text}' without children`
+        `'${item.title}' references a parent '${item.parent.title}' without children`
       );
     return context;
   }
   throw new Error(
-    `Attempt to get context from '${item.text}' which doesn't have a parent`
+    `Attempt to get context from '${item.title}' which doesn't have a parent`
   );
 }
 

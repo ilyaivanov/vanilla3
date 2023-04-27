@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ilyaivanov/vanilla3#readme",
   "devDependencies": {
+    "@types/wicg-file-system-access": "^2020.9.6",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.1",
     "mini-css-extract-plugin": "^2.7.5",
