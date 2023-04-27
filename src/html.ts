@@ -27,7 +27,6 @@ type Props = {
   className?: string;
   classMap?: Record<string, boolean | undefined>;
   id?: string;
-  dataset?: Record<string, string>;
 };
 function assignCommonProperties<T extends HTMLElement>(
   elem: T,
@@ -48,7 +47,6 @@ function assignCommonProperties<T extends HTMLElement>(
   }
 
   if (props.style) Object.assign(elem.style, props.style);
-  if (props.dataset) Object.assign(elem.dataset, props.dataset);
 
   return elem;
 }

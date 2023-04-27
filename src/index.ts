@@ -12,7 +12,6 @@ import {
 import {
   Item,
   createItemAfter,
-  getItemLevel,
   isRoot,
   item,
   removeItemFromParent,
@@ -22,7 +21,6 @@ import {
   closeItem,
   isEditingNow,
   itemAdded,
-  itemMoved,
   itemRemoved,
   openItem,
   renderApp,
@@ -30,7 +28,6 @@ import {
   startEdit,
   stopEdit,
   unSelectItem,
-  updateText,
 } from "./view";
 
 const root = item("Root", [
@@ -145,9 +142,3 @@ function changeSelection(item: Item | undefined) {
   }
 }
 changeSelection(root.children[0]);
-
-//
-//
-//
-// Fuck me
-requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
